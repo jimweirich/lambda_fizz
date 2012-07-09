@@ -246,9 +246,9 @@ look something like this
 
 <pre>
         # Example
-       def mod(a,b)
-         a<b ? a : mod(a-b,b)
-       end
+        def mod(a,b)
+          a<b ? a : mod(a-b,b)
+        end
 </pre>
 
 There are two problems with translating this definition to our

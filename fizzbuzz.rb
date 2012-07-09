@@ -205,9 +205,9 @@ IS_LT = ->(a) { ->(b) { NOT.(IS_LEQ.(b).(a)) } }
 # If we were to write a modulus function in straight Ruby, it might
 # look something like this
 #
-#    def mod(a,b)
-#      a<b ? a : mod(a-b,b)
-#    end
+#     def mod(a,b)
+#       a<b ? a : mod(a-b,b)
+#     end
 #
 # There are two problems with translating this definition to our
 # rather limited lambda-calculus.  First, mod as defined above is
