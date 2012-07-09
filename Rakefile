@@ -65,6 +65,7 @@ module Convert
         else
           if line =~ /^#  /
             outs.puts "<pre>"
+            outs.puts "        # Example"
             lines.unshift line
             state = :pre
           else
@@ -90,7 +91,7 @@ module Convert
           else
             outs.puts if pending_blank
             pending_blank = false
-            outs.puts docline(line)
+            outs.puts "    " + docline(line)
           end
         end
 

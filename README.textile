@@ -90,7 +90,8 @@ Side note about multiple arguments.  We could write functions that
 take two arguments like this:
 
 <pre>
-    BTRUE = ->(a, b) { a }
+        # Example
+        BTRUE = ->(a, b) { a }
 </pre>
 
 But it turns out that it is convenient to represent functions of
@@ -99,7 +100,8 @@ functions in this manner.  So a boolean function (@BTRUE@ or
 @BFALSE@) written in this manner will be called like this:
 
 <pre>
-    bool.(TRUE_VALUE).(FALSE_VALUE)
+        # Example
+        bool.(TRUE_VALUE).(FALSE_VALUE)
 </pre>
 
 The logical not operation is interesting.  It is a function that
@@ -126,7 +128,8 @@ number @n@' for being zero and return @ONE@ if it is zero and
 @THREE@ if is not, it would be written like this:
 
 <pre>
-    IS_ZERO.(n).(ONE).(THREE)
+        # Example
+        IS_ZERO.(n).(ONE).(THREE)
 </pre>
 
 
@@ -138,7 +141,8 @@ value and a left side value) and returns a closure that binds the
 two values together.
 
 <pre>
-    P = PAIR.(ONE).(THREE)  # returns a pair containing 1 and 3
+        # Example
+        P = PAIR.(ONE).(THREE)  # returns a pair containing 1 and 3
 </pre>
 
 Here's the definition of @PAIR@:
@@ -153,8 +157,9 @@ one you need.  For example, given @P@ above, @LEFT@ and @RIGHT@
 works like this:
 
 <pre>
-   LEFT.(P)   # returns ONE
-   RIGHT.(P)  # returns THREE
+        # Example
+       LEFT.(P)   # returns ONE
+       RIGHT.(P)  # returns THREE
 </pre>
 
 Here's the defintions of @LEFT@ and @RIGHT@:
@@ -240,9 +245,10 @@ If we were to write a modulus function in straight Ruby, it might
 look something like this
 
 <pre>
-   def mod(a,b)
-     a<b ? a : mod(a-b,b)
-   end
+        # Example
+       def mod(a,b)
+         a<b ? a : mod(a-b,b)
+       end
 </pre>
 
 There are two problems with translating this definition to our
@@ -306,15 +312,17 @@ We use pairs to build lists of arbitrary length.  Two pairs are used
 to hold a single element of the list.  The pairs are
 
 <pre>
-    pair 1
-      left => false (flag indicating not the end of the list)
-      right => pair 2
+        # Example
+        pair 1
+          left => false (flag indicating not the end of the list)
+          right => pair 2
 </pre>
 
 <pre>
-    pair 2
-      left => element
-      right => rest of the list
+        # Example
+        pair 2
+          left => element
+          right => rest of the list
 </pre>
 
 So the empty list is a single pair where the left value is true
@@ -364,13 +372,15 @@ will do the same, but starting with @FOLD@.  @FOLD@ is similar to
 Ruby's reduce.  It is called like this:
 
 <pre>
-    FOLD.(list).(initial).(f)
+        # Example
+        FOLD.(list).(initial).(f)
 </pre>
 
 Where @f@ is a function of two arguments called like this:
 
 <pre>
-    f.(item).(previous_value)
+        # Example
+        f.(item).(previous_value)
 </pre>
 
 The function @f@ will be called agains each item in the list. The
