@@ -13,6 +13,14 @@ task :spec do
   sh "rspec ."
 end
 
+task :build => [:compile, :build_readme]
+
+task :delete_readme do
+  rm "README.textile" rescue nil
+end
+
+task :build_readme => [:delete_readme, "README.textile"]
+
 file "cfb.rb" => ["fizzbuzz.rb", "compile.rb"] do
   sh "ruby -I. compile.rb <fizzbuzz.rb >cfb.rb"
 end
