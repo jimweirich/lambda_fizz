@@ -19,7 +19,7 @@ while line = gets
   line.chomp!
   line = line.gsub(/#.*$/,'')
 
-  if line =~ /^([A-Z_]+) *= *(.*)$/
+  if line =~ /^ *([A-Z_]+) *= *(.*)$/
     name = $1
     body = $2
     state = :defining
