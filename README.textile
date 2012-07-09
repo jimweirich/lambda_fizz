@@ -32,9 +32,10 @@ file.
 h2.  Numbers
 
 We will start with some Church numerals.  A Church numeral is a
-function that takes a function f and a value v, and applies f to v
-the appropriate number of times.  For example, ONE applies f
-once. THREE applies f 3 times.  And ZERO applies f zero times.
+function that takes a function @f@ and a value @v@, and applies @f@
+to @v@ the appropriate number of times.  For example, @ONE@ applies
+@f@ once. @THREE@ applies @f@ 3 times.  And @ZERO@ applies @f@ zero
+times.
 
 <pre style="background: LightGray; padding: 5px;">
 ZERO  = ->(f) { ->(v) {                v      } }
@@ -94,8 +95,8 @@ take two arguments like this:
 
 But it turns out that it is convenient to represent functions of
 multiple arguments as nested functions, so we will write all of our
-functions in this manner.  So a boolean function (BTRUE or BFALSE)
-written in this manner will be called like this:
+functions in this manner.  So a boolean function (@BTRUE@ or
+@BFALSE@) written in this manner will be called like this:
 
 <pre>
     bool.(TRUE_VALUE).(FALSE_VALUE)
@@ -121,8 +122,8 @@ IS_ZERO = ->(n) { n.(->(x) { BFALSE }).(BTRUE) }
 
 An interesting result of defining boolean values as functions is
 that we don't need an explicit if statement.  If I want to test
-number 'n' for being zero and return ONE if it is zero and THREE if
-is not, it would be written like this:
+number @n@' for being zero and return @ONE@ if it is zero and
+@THREE@ if is not, it would be written like this:
 
 <pre>
     IS_ZERO.(n).(ONE).(THREE)
@@ -140,7 +141,7 @@ two values together.
     P = PAIR.(ONE).(THREE)  # returns a pair containing 1 and 3
 </pre>
 
-Here's the definition of PAIR:
+Here's the definition of @PAIR@:
 
 <pre style="background: LightGray; padding: 5px;">
 PAIR  = ->(left) { ->(right){ ->(f) { f.(left).(right) } } }
@@ -148,15 +149,15 @@ PAIR  = ->(left) { ->(right){ ->(f) { f.(left).(right) } } }
 
 To extract the paired values, call the pair function with a function
 that takes the left and right values as arguments and returns the
-one you need.  For example, given P above, LEFT and RIGHT works like
-this:
+one you need.  For example, given @P@ above, @LEFT@ and @RIGHT@
+works like this:
 
 <pre>
    LEFT.(P)   # returns ONE
    RIGHT.(P)  # returns THREE
 </pre>
 
-Here's the defintions of LEFT and RIGHT:
+Here's the defintions of @LEFT@ and @RIGHT@:
 
 <pre style="background: LightGray; padding: 5px;">
 LEFT  = ->(p) { p.(->(left) { ->(right) { left } } ) }
@@ -177,11 +178,11 @@ INC = ->(n) { ->(f) { ->(v) { f.(n.(f).(v)) } } }
 Decrementing turns out to be quite a bit more difficult than
 incrementing. Tom Stuart uses a decrementing function that he
 doesn't explain (and I can't quite figure it out). I'm using a
-different technique that is pretty straight forward.
+different technique that seems pretty straight forward to me.
 
 It helps to think of decrementing as finding the predecessor of a
 given number. Imagine you have a pair of numbers (n, n-1), where n-1
-is the predecessor of n.  The PHI function takes this pair of
+is the predecessor of n.  The @PHI@ function takes this pair of
 numbers and returns a new pair that contains (n+1, n).
 
 <pre style="background: LightGray; padding: 5px;">
@@ -191,9 +192,9 @@ PHI = ->(pair){
 </pre>
 
 So, to implement decrement, all we need to do is start with the pair
-(0, 0) and apply PHI n times, yielding (n, n-1).  We then just
+(0, 0) and apply @PHI@ n times, yielding (n, n-1).  We then just
 choose the right hand side of the resulting pair to get the
-predecessor of n.  Notice that this definition of DEC will yield 0
+predecessor of n.  Notice that this definition of @DEC@ will yield 0
 as the predecessor of 0.  A strange result, but one we will use to
 advantage later.
 
@@ -213,19 +214,20 @@ MUL = ->(a) { ->(b) { a.(ADD.(b)).(ZERO) } }
 
 h2.  Numeric Comparisons
 
-To tell if a is less than or equal to b, subtract b from a (a-b),
-and if the result is less than or equal to zero, then a <= b.  Since
-our number representation does not handle negative numbers, we have
-a weird case where a-b is 0 if b is larger than a.  This works out
-for us because then all we need to do is test for zero.
+To tell if @a@ is less than or equal to @b@, subtract @b@ from @a@
+@(a-b)@, and if the result is less than or equal to zero, then @a <=
+b@.  Since our number representation does not handle negative
+numbers, we have a weird case where @a-b@ is 0 if @b@ is larger than
+@a@.  This works out for us because then all we need to do is test
+for zero.
 
 <pre style="background: LightGray; padding: 5px;">
 IS_LEQ = ->(a) { ->(b) { IS_ZERO.(SUB.(a).(b)) } }
 </pre>
 
-I actually want to use "<" in the next function.  We can derive the
-less than function from "<=" by reversing the arguments and applying
-a logical NOT.
+I actually want to use "@<@" in the next function.  We can derive
+the less than function from "@<=@" by reversing the arguments and
+applying a logical @NOT@.
 
 <pre style="background: LightGray; padding: 5px;">
 IS_LT = ->(a) { ->(b) { NOT.(IS_LEQ.(b).(a)) } }
@@ -246,8 +248,8 @@ look something like this
 There are two problems with translating this definition to our
 rather limited lambda-calculus.  First, mod as defined above is
 recursive, calling itself by name from within its own body. Our rule
-about no self-references means that we can't write MOD as a straight
-translation of the above code.
+about no self-references means that we can't write @MOD@ as a
+straight translation of the above code.
 
 No worries.  We will use the Y-Combinator to construct our recursive
 definition.  Here's the Applicative Order version of the
@@ -260,7 +262,7 @@ Y = ->(f) {
 }
 </pre>
 
-To create a recursive function using Y, we need to define what I
+To create a recursive function using @Y@, we need to define what I
 call an improver function.  An improver function takes a partial
 function defintion and improves it just a little bit.
 
@@ -279,19 +281,19 @@ MOD_IMPROVER = ->(partial) {
 </pre>
 
 Suppose you have a partial definition of modulus that only works for
-cases where a is less than b.  If you feed that function into the
-improver, you will get a function that works for a < 2b.  Feed that
-back into the improver and you get a modulus function that works for
-a < 3b.  Each new version is slightly better than the next.  The
-Y-Combinator takes the improver and turns it into the full version
-of modulus.
+cases where @a@ is less than @b@.  If you feed that function into
+the improver, you will get a function that works for @a < 2b@.  Feed
+that back into the improver and you get a modulus function that
+works for @a < 3b@.  Each new version is slightly better than the
+next.  The Y-Combinator takes the improver and turns it into the
+full version of modulus.
 
 <pre style="background: LightGray; padding: 5px;">
 MOD = Y.(MOD_IMPROVER)
 </pre>
 
-Let's talk about the ->(x) { } function that wraps the call to
-partial in the definition of MOD.  Since arguments are always
+Let's talk about the @->(x) { }@ function that wraps the call to
+partial in the definition of @MOD@.  Since arguments are always
 evaluated before passed to functions, attempting to pass the partial
 call directly will result in infinte recursion and stack overflow.
 By wrapping it in a function, we pass a function instead. The
@@ -323,14 +325,14 @@ EMPTY = PAIR.(BTRUE).(BTRUE)
 IS_EMPTY = LEFT
 </pre>
 
-CONS adds an item to the begining of a list.
+@CONS@ adds an item to the begining of a list.
 
 <pre style="background: LightGray; padding: 5px;">
 CONS = ->(item) { ->(lst) { PAIR.(BFALSE).(PAIR.(item).(lst)) } }
 </pre>
 
-HEAD returns the first item of a list.  Tail returns a list of all
-the remaining elements after the first.
+@HEAD@ returns the first item of a list.  @TAIL@ returns a list of
+all the remaining elements after the first.
 
 <pre style="background: LightGray; padding: 5px;">
 HEAD = ->(lst) { LEFT.(RIGHT.(lst)) }
@@ -341,7 +343,7 @@ TAIL = ->(lst) { RIGHT.(RIGHT.(lst)) }
 h2.  Ranges
 
 We need an easy way to generate a list of numbers up to a maximum.
-RANGE.(n) will return a list from 1 to n.
+@RANGE.(n)@ will return a list from 1 to @n@.
 
 <pre style="background: LightGray; padding: 5px;">
 RANGE_BUILDER_IMPROVER = ->(partial) {
@@ -358,14 +360,14 @@ RANGE = Y.(RANGE_BUILDER_IMPROVER).(EMPTY)
 h2.  Fold and Map
 
 In Ruby, we use each to build all the enumerable methods.  Here we
-will do the same, but starting with FOLD.  FOLD is similar to Ruby's
-reduce.  It is called like this:
+will do the same, but starting with @FOLD@.  @FOLD@ is similar to
+Ruby's reduce.  It is called like this:
 
 <pre>
     FOLD.(list).(initial).(f)
 </pre>
 
-Where f is a function of two arguments called like this:
+Where @f@ is a function of two arguments called like this:
 
 <pre>
     f.(item).(previous_value)
@@ -391,9 +393,9 @@ FOLD_IMPROVER = ->(partial) {
 FOLD = Y.(FOLD_IMPROVER)
 </pre>
 
-We will build map from fold by using a function that conses f(item)
-onto the previous return value.  By initializing with the empty
-list, the result will be a list of f applied ot each item.
+We will build map from fold by using a function that conses
+@f(item)@ onto the previous return value.  By initializing with the
+empty list, the result will be a list of @f@ applied to each item.
 
 <pre style="background: LightGray; padding: 5px;">
 MAP = ->(lst) { ->(f) { FOLD.(lst).(EMPTY).( ->(item) { ->(lst) { CONS.(f.(item)).(lst) } } ) } }
@@ -408,7 +410,7 @@ we choose to let the numbers < 10 represent themselves and numbers
 over 10 to represent the handful of letters we need. (This is the
 same encoding that Tom Stuart used.)
 
-Note that the to_char and to_string helper functions in
+Note that the @to_char@ and @to_string@ helper functions in
 'interface.rb' are sensitive to this choice of encoding.
 
 <pre style="background: LightGray; padding: 5px;">
@@ -454,15 +456,15 @@ h2.  Converting numbers to strings
 
 This is a standard number to string conversion method. The digits
 are calculated starting with the least significant digit of the
-result (n % 10).  To prevent the digits from being built in reverse
-order, we use a trick where we pass the "result so far" as an
-argument.  When the number is finished converting (n<10), we just
-return the cons of n on the "result so far".  Initializing the
-"result so far" with an empty list completes the trick.
+result @(n % 10)@.  To prevent the digits from being built in
+reverse order, we use a trick where we pass the "result so far" as
+an argument.  When the number is finished converting @(n<10)@, we
+just return the cons of @n@ on the "result so far".  Initializing
+the "result so far" with an empty list completes the trick.
 
-Finally, it is useful to point out that choosing an encoding where a
-number < 10 is its own character encoding simplifies the overall
-conversion.
+Tom points out that choosing an encoding where a number < 10 is its
+own character encoding greatly simplifies the overall conversion,
+and I certainly agree.
 
 <pre style="background: LightGray; padding: 5px;">
 TO_DIGITS_IMPROVER = ->(partial) {
@@ -479,6 +481,12 @@ TO_DIGITS = Y.(TO_DIGITS_IMPROVER).(EMPTY)
 
 
 h2.  The FizzBuzz Main Program
+
+We now have everything in place to create the FizzBuzz program.  The
+program will create a list of FizzBuzz numbers (as strings) from 1
+up to @limit@.  We use @RANGE@ to create the initial list of numbers
+and then @MAP@ to walk the list and transform it into either "Fizz",
+"Buzz", "FizzBuzz", or the string representation of the number.
 
 <pre style="background: LightGray; padding: 5px;">
 PROGRAM = ->(limit){
@@ -503,9 +511,13 @@ PROGRAM = ->(limit){
 
 h2.  Kick-start the FizzBuzz program and print its results.
 
+Finally we run the program and collect the result in @RESULT@.  We
+then use the full Ruby-based interface functions to transcribe our
+calculated result to something humans can read.
+
 <pre style="background: LightGray; padding: 5px;">
 if $0 == __FILE__
-RESULT = PROGRAM.(HUNDRED)
+  RESULT = PROGRAM.(HUNDRED)
 
   require "interface"
   puts to_strings(RESULT)
