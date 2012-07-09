@@ -8,6 +8,16 @@
 # Most of the code is taken directly from there, although I do vary
 # from it in a few places.
 #
+## Files of Interest:
+#
+# * "fizzbuzz.rb":https://github.com/jimweirich/lambda_fizz/blob/master/fizzbuzz.rb -- The original code file that generated this readme.
+#
+# * "cfb.rb":https://github.com/jimweirich/lambda_fizz/blob/master/cfb.rb -- The "compiled" version of the fizzbuzz program, with all the constants expanded inline.
+#
+# * "cfb2.rb":https://github.com/jimweirich/lambda_fizz/blob/master/cfb2.rb -- Same as cfb.rb, but with the code nicely formatted and indented.
+#
+# * "interface.rb":https://github.com/jimweirich/lambda_fizz/blob/master/interface.rb -- The full Ruby interface functions used to translate the lambda calculus data structures to something that is human readable.
+#
 ## The Rules:
 #
 # We are only allowed to write procs and to call procs.  No other Ruby
@@ -73,7 +83,7 @@ HUNDRED = ->(f) {
 }
 
 ######################################################################
-## Boolean Values
+## Boolean Values and Functions
 
 # Boolean values are functions that take two arguments and return one
 # of them. True returns the first argument and false returns the
