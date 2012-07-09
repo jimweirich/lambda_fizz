@@ -288,9 +288,9 @@ MOD_IMPROVER = ->(partial) {
 
 Suppose you have a partial definition of modulus that only works for
 cases where @a@ is less than @b@.  If you feed that function into
-the improver, you will get a function that works for @a < 2b@.  Feed
-that back into the improver and you get a modulus function that
-works for @a < 3b@.  Each new version is slightly better than the
+the improver, you will get a function that works for @a < 2*b@.
+Feed that back into the improver and you get a modulus function that
+works for @a < 3*b@.  Each new version is slightly better than the
 next.  The Y-Combinator takes the improver and turns it into the
 full version of modulus.
 
