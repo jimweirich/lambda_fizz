@@ -276,7 +276,6 @@ MOD = Y.(MOD_IMPROVER)
 #     pair 1
 #       left => false (flag indicating not the end of the list)
 #       right => pair 2
-#
 #     pair 2
 #       left => element
 #       right => rest of the list
