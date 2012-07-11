@@ -120,8 +120,8 @@ IS_ZERO = ->(n) { n.(->(x) { BFALSE }).(BTRUE) }
 
 # An interesting result of defining boolean values as functions is
 # that we don't need an explicit if statement.  If I want to test
-# number @n@' for being zero and return @ONE@ if it is zero and
-# @THREE@ if is not, it would be written like this:
+# number @n@ for being zero and return @ONE@ if it is zero and @THREE@
+# if is not, it would be written like this:
 #
 #     IS_ZERO.(n).(ONE).(THREE)
 
