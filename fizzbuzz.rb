@@ -142,7 +142,7 @@ PAIR  = ->(left) { ->(right){ ->(f) { f.(left).(right) } } }
 # To extract the paired values, call the pair function with a function
 # that takes the left and right values as arguments and returns the
 # one you need.  For example, given @P@ above, @LEFT@ and @RIGHT@
-# works like this:
+# work like this:
 #
 #    LEFT.(P)   # returns ONE
 #    RIGHT.(P)  # returns THREE
